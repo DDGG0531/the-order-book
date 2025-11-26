@@ -1,0 +1,53 @@
+@import 'tailwindcss';
+
+@theme {
+  /* 自訂顏色 */
+  --color-ob-bg: #131b29;
+  --color-ob-text: #f0f4f8;
+  --color-ob-header: #8698aa;
+  --color-ob-buy: #00b15d;
+  --color-ob-sell: #ff5b5a;
+  --color-ob-hover: #1e3059;
+
+  --color-ob-progress-buy: rgba(16, 186, 104, 0.12);
+  --color-ob-progress-sell: rgba(255, 90, 90, 0.12);
+
+  /* 動畫閃爍顏色 */
+  --color-ob-flash-green: rgba(0, 177, 93, 0.5);
+  --color-ob-flash-red: rgba(255, 91, 90, 0.5);
+}
+
+/* 全域樣式 */
+body {
+  background-color: var(--color-ob-bg);
+  color: var(--color-ob-text);
+}
+
+/* Order Book 動畫效果 */
+@keyframes fade-out-flash-green {
+  0%,
+  50% {
+    background-color: var(--color-ob-flash-green);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes fade-out-flash-red {
+  0%,
+  50% {
+    background-color: var(--color-ob-flash-red);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.animate-flash-green {
+  animation: fade-out-flash-green 1000ms ease-out forwards;
+}
+
+.animate-flash-red {
+  animation: fade-out-flash-red 1000ms ease-out forwards;
+}
