@@ -9,7 +9,7 @@ export function useLatestPrice(symbol: string) {
 
   let updateTimer: ReturnType<typeof setTimeout> | null = null
   let pendingPrice: number | null = null
-  const UPDATE_INTERVAL = 100
+  const UPDATE_INTERVAL = 3000
 
   const handleMessage = (message: TradeHistoryMessage) => {
     if (message.topic !== 'tradeHistoryApi') {
@@ -65,19 +65,6 @@ export function useLatestPrice(symbol: string) {
     topics: [`tradeHistoryApi:${symbol}`],
     onMessage: handleMessage,
   })
-
-  const reset = () => {
-    if (updateTimer) {
-      clearTimeout(updateTimer)
-      updateTimer = null
-    }
-
-    pendingPrice = null
-
-    price.value = 0
-    prevPrice.value = 0
-    direction.value = 'up'
-  }
 
   const cleanup = () => {
     if (updateTimer) {

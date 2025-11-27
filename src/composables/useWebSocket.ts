@@ -34,38 +34,34 @@ export function useWebSocket(config: WebSocketConfig) {
       return
     }
 
-    try {
-      ws = new WebSocket(url)
+    ws = new WebSocket(url)
 
-      ws.onopen = () => {
-        reconnectAttempts.value = 0
-        subscribe()
-      }
+    ws.onopen = () => {
+      reconnectAttempts.value = 0
+      subscribe()
+    }
 
-      ws.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data)
+    ws.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data)
 
-          if (onMessage) {
-            onMessage(data)
-          }
-        } catch (err) {}
-      }
-
-      ws.onerror = () => {}
-
-      ws.onclose = () => {
-        ws = null
-
-        if (autoReconnect && reconnectAttempts.value < maxReconnectAttempts) {
-          reconnectAttempts.value++
-
-          reconnectTimer = setTimeout(() => {
-            connect()
-          }, reconnectDelay)
+        if (onMessage) {
+          onMessage(data)
         }
+      } catch (err) { }
+    }
+
+    ws.onclose = () => {
+      ws = null
+
+      if (autoReconnect && reconnectAttempts.value < maxReconnectAttempts) {
+        reconnectAttempts.value++
+
+        reconnectTimer = setTimeout(() => {
+          connect()
+        }, reconnectDelay)
       }
-    } catch (err) {}
+    }
   }
 
   const disconnect = () => {

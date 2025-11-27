@@ -173,23 +173,6 @@ export function useOrderBook(symbol: string, maxLevels = 8) {
     onMessage: handleMessage,
   })
 
-  const reset = () => {
-    if (updateTimer) {
-      clearTimeout(updateTimer)
-      updateTimer = null
-    }
-
-    bids.value = []
-    asks.value = []
-    bidsMap.value.clear()
-    asksMap.value.clear()
-    seqNum.value = 0
-    lastUpdate.value = 0
-    isInitialized.value = false
-    displayedBidPrices = new Set()
-    displayedAskPrices = new Set()
-  }
-
   const cleanup = () => {
     if (updateTimer) {
       clearTimeout(updateTimer)
