@@ -29,6 +29,19 @@ export function useWebSocket(config: WebSocketConfig) {
     ws.send(JSON.stringify(subscribeMessage))
   }
 
+  const unsubscribe = () => {
+    if (!ws || ws.readyState !== WebSocket.OPEN) {
+      return
+    }
+
+    const unsubscribeMessage = {
+      op: 'unsubscribe',
+      args: topics,
+    }
+
+    ws.send(JSON.stringify(unsubscribeMessage))
+  }
+
   const connect = () => {
     if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) {
       return
@@ -84,6 +97,11 @@ export function useWebSocket(config: WebSocketConfig) {
     connect()
   }
 
+  const resubscribe = () => {
+    unsubscribe()
+    subscribe()
+  }
+
   onUnmounted(() => {
     disconnect()
   })
@@ -93,5 +111,7 @@ export function useWebSocket(config: WebSocketConfig) {
     connect,
     disconnect,
     reconnect,
+    resubscribe,
+    unsubscribe,
   }
 }

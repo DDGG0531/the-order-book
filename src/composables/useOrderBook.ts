@@ -22,7 +22,12 @@ export function useOrderBook(symbol: string, maxLevels = 8) {
 
     if (isInitialized.value && data.type === 'delta') {
       if (data.prevSeqNum !== seqNum.value) {
-        websocket.reconnect()
+        isInitialized.value = false
+        bidsMap.value.clear()
+        asksMap.value.clear()
+        bids.value = []
+        asks.value = []
+        websocket.resubscribe()
         return
       }
     }
